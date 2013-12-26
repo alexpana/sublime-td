@@ -1,30 +1,24 @@
-import 'dart:web_gl' as webgl;
-import 'dart:typed_data';
+part of graphics;
 
 class Mesh {
   List<double> vertices;
   List<int> indices;
   
-  webgl.RenderingContext _gl;
-  webgl.Buffer _vertexPositionBuffer;
-  webgl.Buffer _indicesBuffer;
+  RenderingContext _gl;
+  Buffer vertexBuffer;
+  Buffer indexBuffer;
   
-  Mesh(webgl.RenderingContext _gl ,List<double> vertices, List<int> indices) {
-    
+  Mesh(RenderingContext _gl, List<double> vertices, List<int> indices) {
     this._gl = _gl;
     this.vertices = vertices;
     this.indices = indices;
     
-    _vertexPositionBuffer = _gl.createBuffer();
-    _gl.bindBuffer(webgl.RenderingContext.ARRAY_BUFFER, _vertexPositionBuffer);
-    _gl.bufferDataTyped(webgl.RenderingContext.ARRAY_BUFFER, new Float32List.fromList(vertices), webgl.RenderingContext.STATIC_DRAW);
+    vertexBuffer = _gl.createBuffer();
+    _gl.bindBuffer(RenderingContext.ARRAY_BUFFER, vertexBuffer);
+    _gl.bufferDataTyped(RenderingContext.ARRAY_BUFFER, new Float32List.fromList(vertices), RenderingContext.STATIC_DRAW);
     
-    _indicesBuffer = _gl.createBuffer();
-    _gl.bindBuffer(webgl.RenderingContext.ARRAY_BUFFER, _indicesBuffer);
-    _gl.bufferDataTyped(webgl.RenderingContext.ARRAY_BUFFER, new Uint32List.fromList(indices), webgl.RenderingContext.STATIC_DRAW);
-  }
-  
-  void draw()
-  {
+    indexBuffer = _gl.createBuffer();
+    _gl.bindBuffer(RenderingContext.ELEMENT_ARRAY_BUFFER, indexBuffer);
+    _gl.bufferDataTyped(RenderingContext.ELEMENT_ARRAY_BUFFER, new Uint16List.fromList(indices), RenderingContext.STATIC_DRAW);
   }
 }
